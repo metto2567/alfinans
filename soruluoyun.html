@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Alfinans - Sorulu Oyun: Finansal okuryazarlığınızı geliştiren quiz oyunu.">
+  <meta name="keywords" content="finans, quiz, oyun, finansal okuryazarlık, soru">
+  <title>Alfinans - Sorulu Oyun</title>
+  <style>
+    :root {
+      --primary: #004d99;
+      --secondary: #0066cc;
+      --accent: #ffd700;
+      --bg: #ffffff;
+      --text: #333333;
+      --transition: 0.3s;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 80px; /* Footer boşluğu */
+    }
+    header {
+      background: var(--primary);
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      color: var(--bg);
+    }
+    nav {
+      background: var(--secondary);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    nav a {
+      padding: 14px 20px;
+      color: var(--bg);
+      text-decoration: none;
+      font-weight: bold;
+      transition: color var(--transition);
+    }
+    nav a:hover { color: var(--accent); }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 { margin-bottom: 20px; color: var(--secondary); font-size: 2em; }
+    .question-box {
+      border: 2px solid var(--secondary);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px auto;
+      width: 60%;
+      background: #fafafa;
+      transition: box-shadow var(--transition);
+    }
+    .question-box:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      border: 2px solid var(--secondary);
+      border-radius: 25px;
+      margin-top: 10px;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    input[type="text"]:focus { border-color: var(--primary); }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: var(--primary);
+      color: var(--bg);
+      border: none;
+      cursor: pointer;
+      border-radius: 25px;
+      transition: background var(--transition), color var(--transition), transform var(--transition);
+    }
+    button:hover {
+      background-color: var(--secondary);
+      color: var(--accent);
+      transform: scale(1.05);
+    }
+    .feedback { font-size: 18px; margin: 10px; }
+    /* Doğru/Yanlış göstergesi */
+    #scoreIndicator {
+      margin-top: 15px;
+    }
+    #scoreIndicator span {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin: 0 3px;
+      background-color: #ccc;
+    }
+    /* Sabit alt çubuk */
+    footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: #f2f2f2;
+      color: var(--text);
+      text-align: center;
+      padding: 15px 0;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+    footer button {
+      padding: 10px 20px;
+      border: none;
+      background: var(--secondary);
+      color: var(--bg);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+    }
+    footer button:hover {
+      background: var(--primary);
+      color: var(--accent);
+    }
+    @media (max-width: 600px) {
+      .question-box { width: 90%; }
+      nav { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sorulu Oyun</h1>
+  </header>
+  <nav>
+    <a href="oyun.html">Oyun Ana Sayfası</a>
+  </nav>
+  <div class="container">
+    <h2>Finansal Okuryazarlık Soruları</h2>
+    <div id="gameArea">
+      <!-- Başlangıç alanı -->
+      <div id="wheelArea">
+        <p>Soruyu açmak için "Başlat" butonuna basın.</p>
+        <button id="startBtn">Başlat</button>
+      </div>
+      <!-- Soru alanı -->
+      <div id="questionArea" style="display:none;">
+        <div class="question-box">
+          <p id="questionText"></p>
+          <input type="text" id="answerInput" placeholder="Cevabınızı yazın">
+          <br>
+          <button id="submitAnswerBtn">Cevabı Gönder</button>
+        </div>
+        <p class="feedback" id="feedbackMessage"></p>
+      </div>
+      <!-- Doğru/Yanlış göstergesi -->
+      <div id="scoreIndicator"></div>
+      <!-- Sonuç alanı -->
+      <div id="resultArea" style="display:none;">
+        <h3 id="resultMessage"></h3>
+        <button id="restartBtn">Tekrar Oyna</button>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <p>&copy; 2025 Alfinans</p>
+  </footer>
+  <script>
+    // Sorular ve doğru cevaplar
+    var questions = [
+      { question: "Faiz nedir?", answer: "Paranın kullanım bedeli" },
+      { question: "Borsa nedir?", answer: "Hisse senedi alım satım yeri" },
+      { question: "Enflasyon nedir?", answer: "Fiyatların genel artışı" },
+      { question: "Döviz nedir?", answer: "Yabancı para" },
+      { question: "Bütçe nedir?", answer: "Gelir ve gider planı" },
+      { question: "Yatırım nedir?", answer: "Paranın gelecekte değer kazanması amacıyla değerlendirilmesi" },
+      { question: "Kredi nedir?", answer: "Borç para" },
+      { question: "Faiz oranı nedir?", answer: "Faizin yüzdesi" },
+      { question: "Temettü nedir?", answer: "Kar payı" },
+      { question: "Hisse senedi nedir?", answer: "Şirket ortaklığı belgesi" },
+      { question: "Likidite nedir?", answer: "Nakit dönüşüm hızı" },
+      { question: "Portföy nedir?", answer: "Yatırım araçları topluluğu" },
+      { question: "Vadeli mevduat nedir?", answer: "Belirli süreli mevduat" },
+      { question: "Merkez bankası nedir?", answer: "Para politikasını belirleyen kurum" },
+      { question: "Tahvil nedir?", answer: "Borçlanma senedi" }
+    ];
+    
+    var totalRounds = 15;
+    var round = 0;
+    var correctCount = 0;
+    var wrongCount = 0;
+    var currentQuestion = null;
+    
+    var startBtn = document.getElementById('startBtn');
+    var questionArea = document.getElementById('questionArea');
+    var questionText = document.getElementById('questionText');
+    var answerInput = document.getElementById('answerInput');
+    var submitAnswerBtn = document.getElementById('submitAnswerBtn');
+    var feedbackMessage = document.getElementById('feedbackMessage');
+    var wheelArea = document.getElementById('wheelArea');
+    var resultArea = document.getElementById('resultArea');
+    var resultMessage = document.getElementById('resultMessage');
+    var restartBtn = document.getElementById('restartBtn');
+    var scoreIndicator = document.getElementById('scoreIndicator');
+    
+    startBtn.addEventListener('click', function() {
+      if(round < totalRounds) { loadNextQuestion(); }
+    });
+    
+    submitAnswerBtn.addEventListener('click', function() {
+      var userAnswer = answerInput.value.trim();
+      if(userAnswer === "") return;
+      
+      if(userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()){
+        feedbackMessage.style.color = "green";
+        feedbackMessage.textContent = "Doğru! Tebrikler.";
+        correctCount++;
+        addIndicator(true);
+      } else {
+        feedbackMessage.style.color = "red";
+        feedbackMessage.textContent = "Yanlış! Doğru cevap: " + currentQuestion.answer;
+        wrongCount++;
+        addIndicator(false);
+      }
+      
+      round++;
+      setTimeout(function() {
+        if(round < totalRounds) { loadNextQuestion(); }
+        else { endGame(); }
+      }, 1500);
+    });
+    
+    function loadNextQuestion() {
+      var randomIndex = Math.floor(Math.random() * questions.length);
+      currentQuestion = questions[randomIndex];
+      wheelArea.style.display = "none";
+      questionArea.style.display = "block";
+      questionText.textContent = currentQuestion.question;
+      answerInput.value = "";
+      feedbackMessage.textContent = "";
+    }
+    
+    function addIndicator(isCorrect) {
+      var indicator = document.createElement("span");
+      indicator.style.backgroundColor = isCorrect ? "green" : "red";
+      scoreIndicator.appendChild(indicator);
+    }
+    
+    function endGame() {
+      questionArea.style.display = "none";
+      wheelArea.style.display = "none";
+      resultArea.style.display = "block";
+      var finalMessage = "Toplam Doğru: " + correctCount + " / " + totalRounds + "\n";
+      finalMessage += (correctCount > wrongCount) ? "Harika, finans okuryazarlığınız mükemmel." : "Finans okuryazarlığınızda eksiklikler var, lütfen tekrar çalışın.";
+      resultMessage.textContent = finalMessage;
+    }
+    
+    restartBtn.addEventListener('click', function() {
+      round = 0;
+      correctCount = 0;
+      wrongCount = 0;
+      scoreIndicator.innerHTML = "";
+      resultArea.style.display = "none";
+      wheelArea.style.display = "block";
+      feedbackMessage.textContent = "";
+    });
+  </script>
+</body>
+</html>

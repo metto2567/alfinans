@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alfinans - Ana Sayfa</title>
+  <style>
+    :root {
+      --primary: #004d99;
+      --secondary: #0066cc;
+      --accent: #ffd700;
+      --bg: #ffffff;
+      --text: #333333;
+      --transition: 0.3s;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+      font-size: larger;
+    }
+    header {
+      background: var(--primary);
+      color: var(--bg);
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    nav {
+      background: var(--secondary);
+      text-align: center;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+    nav a {
+      color: var(--bg);
+      text-decoration: none;
+      margin: 0 10px;
+      padding: 10px 15px;
+      transition: background var(--transition);
+    }
+    nav a:hover { background: var(--primary); border-radius: 5px; }
+    .container { display: flex; gap: 20px; margin-bottom: 20px; }
+    .left-column, .center-column, .right-column {
+      background: var(--bg);
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .left-column { flex: 1; }
+    .center-column { flex: 2; text-align: center; }
+    .right-column { flex: 1; }
+    /* Sol sütun: Finansal Kaynaklar */
+    .financial-box {
+      border: 1px solid var(--secondary);
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 15px;
+      text-align: left;
+      background: #f9f9f9;
+    }
+    .financial-box a {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: bold;
+    }
+    .financial-box .image-placeholder {
+      height: 98px;
+      width:213px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    /* Sağ sütun: Görseller */
+    .image-box {
+      background: #ddd;
+      border: 2px dashed var(--accent);
+      border-radius: 5px;
+      margin-bottom: 15px;
+      width: 300px;
+      height: 225px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1em;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    /* Orta sütun: Hakkımızda, Amacımız ve Güncellemeler */
+    .section { margin-bottom: 30px;
+        font-size: larger;
+    }
+    .section h2 { margin-bottom: 10px; color: var(--primary); }
+    .updates {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px dashed var(--accent);
+      border-radius: 5px;
+      background: #fefefe;
+    }
+    .updates h2 { color: var(--secondary); }
+    /* İletişim Bölümü */
+    .contact {
+      max-width: 600px;
+      margin: 30px auto;
+      background: var(--bg);
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .contact h2 { margin-bottom: 15px; color: var(--primary); }
+    .contact form { display: flex; flex-direction: column; }
+    .contact label { margin-bottom: 5px; font-weight: bold; }
+    .contact input, .contact select, .contact textarea {
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .contact button {
+      padding: 10px;
+      background: var(--secondary);
+      color: var(--bg);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .contact button:hover { background: var(--primary); }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #f2f2f2;
+      border-radius: 8px;
+      font-size: 0.9em;
+    }
+    @media (max-width: 768px) { .container { flex-direction: column; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Alfinans: Finansal Okuryazarlık Eğitimi</h1>
+  </header>
+  <nav>
+    <a href="egitim.html">Eğitim</a>
+    <a href="oyun.html">Oyun</a>
+    <a href="test.html">Finans Okuryazarlığı Testi</a>
+  </nav>
+  <div class="container">
+    <!-- Sol sütun: Finansal Kaynaklar -->
+    <div class="left-column">
+      <h2>Finansal Kaynaklar</h2>
+      <div class="financial-box">
+        <a href="https://www.borsaistanbul.com/" target="_blank">Borsa İstanbul</a>
+        <div class="image-placeholder" style="background-image: url(https://www.borsaistanbul.com/files/borsa-i-stanbul-logo-yatay.png);"></div>
+      </div>
+      <div class="financial-box">
+        <a href="https://www.kap.org.tr/" target="_blank">KAP</a>
+        <div class="image-placeholder" style="background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRhPcu1nIqAi_0wVqpuGfUzExWQsmJFjvTQA&s);"></div>
+      </div>
+      <div class="financial-box">
+        <a href="https://www.hmb.gov.tr/" target="_blank">Hazine ve Maliye Bakanlığı</a>
+        <div class="image-placeholder" style="background-image: url(https://upload.wikimedia.org/wikipedia/tr/5/5d/Hmb_logo.png);"></div>
+      </div>
+    </div>
+    <!-- Orta sütun: Hakkımızda, Amacımız ve Güncellemeler -->
+    <div class="center-column">
+      <div class="section" id="hakkimizda">
+        <h2>Hakkımızda</h2>
+        <p>Akademi ve yaşam içerisinde ekonomi ve finans alanları ile ilgilenirken ilk öncelikle bu kavramların anlamlarını ve kapsayışlarını bilmenin hayati önemi vardır. Amerikan Ekonomi Derneği’ne göre ekonomi; Kıtlığın incelenmesi, insanların kaynakları nasıl kullandığının ve teşviklere nasıl yanıt verdiğinin incelenmesi veya karar almanın incelenmesidir. Projede ülkemizde yaşayan farklı milletten öğrencilerin finansal alanda bilinç seviyeleri değerlendirilmiştir.</p>
+      </div>
+      <div class="section" id="amac">
+        <h2>Amacımız</h2>
+        <p>Projenin ana hedefi gün geçtikçe artışı devam eden farklı milletten öğrencilerin finansal anlamda bilinçlendirilip ülke ekonomisine katkı sağlamaları üzerinedir. 
+        </p>
+      </div>
+      <div class="updates">
+        <h2>Güncellemeler</h2>
+        <p></p>
+      </div>
+    </div>
+    <!-- Sağ sütun: Görseller -->
+    <div class="right-column">
+      <div class="image-box" style="background-image: url(https://www.pngall.com/wp-content/uploads/2016/06/Finance-PNG-HD.png);"></div>
+      <div class="image-box" style="background-image: url(https://www.pngall.com/wp-content/uploads/2016/06/Finance-PNG-Pic-300x225.png);"></div>
+      <div class="image-box" style="background-image: url(https://www.pngall.com/wp-content/uploads/2016/06/Finance-PNG-Clipart-300x225.png);"></div>
+    </div>
+  </div>
+  <!-- İletişim Bölümü -->
+  <div class="contact">
+    <h2>İletişim</h2>
+    <form id="contactForm" action="mailto:engmrtayd13@gmail.com" method="post" enctype="text/plain">
+      <label for="email">E-posta Adresiniz:</label>
+      <input type="email" id="email" name="email" required>
+      <label for="konu">Konu Seçiniz:</label>
+      <select id="konu" name="konu">
+        <option value="Genel Soru">Genel Soru</option>
+        <option value="Geri Bildirim">Geri Bildirim</option>
+        <option value="İşbirliği">İşbirliği</option>
+      </select>
+      <label for="mesaj">Mesajınız:</label>
+      <textarea id="mesaj" name="mesaj" rows="4" required></textarea>
+      <button type="submit">Gönder</button>
+    </form>
+  </div>
+  <footer>
+    <p>&copy; 2025 Alfinans</p>
+  </footer>
+</body>
+</html>

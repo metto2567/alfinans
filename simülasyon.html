@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yatırım Kişiliği Simülasyonu</title>
+  <style>
+    :root {
+      --primary: #004d99;
+      --red: #cc0000;
+      --green: #009900;
+      --bg: #ffffff;
+      --text: #333333;
+      --transition: 0.3s;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      font-size: larger;
+    }
+    header {
+      background: var(--primary);
+      color: var(--bg);
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .container { text-align: center; }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      background: var(--primary);
+      color: var(--bg);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    button:hover { background: var(--primary); }
+    .progress span {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin: 0 3px;
+      border-radius: 50%;
+      background: #ccc;
+    }
+    /* Görsel hataları giderildi (örneğin hover durumunda opacity değişimi yok) */
+    img { transition: none; }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #f2f2f2;
+      border-top: 1px solid #ccc;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Yatırım Risk Kişiliği Testi</h1>
+    <p>Hangi yatırımcı sensin? Kararlarını ver, risk kişiliğini öğren!</p>
+  </header>
+  <div class="container" id="gameArea">
+    <div id="startArea">
+      <button id="startBtn">Testi Başlat</button>
+    </div>
+    <div id="questionArea" style="display:none;">
+      <p id="questionText"></p>
+      <div id="optionsArea"></div>
+      <button id="nextBtn" style="display:none;">Sonraki</button>
+    </div>
+    <div class="progress" id="progressArea"></div>
+    <div id="resultArea" style="display:none;">
+      <h2 id="resultMessage"></h2>
+      <p id="resultComment"></p>
+      <button onclick="location.href='oyun.html'">Oyun Sayfasına Dön</button>
+      <button onclick="location.reload()">Tekrar Başlat</button>
+    </div>
+  </div>
+  <footer>
+    <p>&copy; 2025 Alfinans</p>
+  </footer>
+  <script>
+    // Yatırım araçları sırası
+    const investmentQuestions = [
+      {
+        question: "Döviz'e yatırım yapmak ister misiniz?",
+        yes: () => { rahat++; addProgress(); extraComments.push("Yatırım yaparken gündemi takip etmen çok iyi!"); },
+        no: () => { guvenen++; addProgress(); }
+      },
+      {
+        question: "Altın'a yatırım yapmak ister misiniz?",
+        yes: () => { rahat++; addProgress(); },
+        no: () => { guvenen++; addProgress(); }
+      },
+      {
+        question: "BES'e yatırım yapmak ister misiniz?",
+        yes: () => { rahat++; addProgress(); extraComments.push("Geleceğin için birikim yapman ne güzel!"); },
+        no: () => { guvenen++; addProgress(); extraComments.push("Geleceğin için birikim yapmalısın!"); }
+      },
+      {
+        question: "Borsa (Hisse Senedi)'ne yatırım yapmak ister misiniz?",
+        yes: () => { guvenen++; addProgress(); },
+        no: () => { rahat++; addProgress(); }
+      },
+      {
+        question: "Yatırım Fonları'na yatırım yapmak ister misiniz?",
+        yes: () => { rahat++; addProgress(); },
+        no: () => { guvenen++; addProgress(); }
+      },
+      {
+        question: "Kripto Para'ya yatırım yapmak ister misiniz?",
+        yes: () => { guvenen++; addProgress(); extraComments.push("Teknolojiyi takip ediyorsun!"); },
+        no: () => { rahat++; addProgress(); }
+      }
+    ];
+    
+    let guvenen = 0, rahat = 0;
+    let currentQuestion = 0;
+    const gameArea = document.getElementById("gameArea");
+    const startBtn = document.getElementById("startBtn");
+    const questionArea = document.getElementById("questionArea");
+    const questionText = document.getElementById("questionText");
+    const optionsArea = document.getElementById("optionsArea");
+    const nextBtn = document.getElementById("nextBtn");
+    const progressArea = document.getElementById("progressArea");
+    const resultArea = document.getElementById("resultArea");
+    const resultMessage = document.getElementById("resultMessage");
+    const resultComment = document.getElementById("resultComment");
+    let extraComments = [];
+    
+    startBtn.addEventListener("click", () => {
+      // İlk soru: "Yatırım yapmayı düşünüyor musunuz?"
+      startBtn.style.display = "none";
+      questionArea.style.display = "block";
+      questionText.textContent = "Elinizde 10.000 ₺ bulunmaktadır. Yatırım yapmayı düşünüyor musunuz?";
+      optionsArea.innerHTML = `
+        <button onclick="handleInitial('no')">Yapmayacağım</button>
+        <button onclick="handleInitial('yes')">Yapacağım</button>
+      `;
+    });
+    
+    function handleInitial(answer) {
+      if(answer === "no") {
+        finishGame("Paran Cebinde!", "Ancak yatırım olanaklarını değerlendirirsen mali özgürlüğünü sağlayabilir, toplumsal sermayeye katkı sağlayabilir ve ülke ekonomisine destek olabilirsin! ");
+      } else {
+        loadInvestmentQuestion();
+      }
+    }
+    
+    function loadInvestmentQuestion() {
+      if(currentQuestion < investmentQuestions.length) {
+        const q = investmentQuestions[currentQuestion];
+        questionText.textContent = q.question;
+        optionsArea.innerHTML = `
+          <button onclick="handleAnswer('yes')">Evet</button>
+          <button onclick="handleAnswer('no')">Hayır</button>
+        `;
+      } else {
+        concludeCompetition();
+      }
+    }
+    
+    function handleAnswer(answer) {
+      const q = investmentQuestions[currentQuestion];
+      if(answer === "yes") { q.yes(); }
+      else { q.no(); }
+      currentQuestion++;
+      loadInvestmentQuestion();
+    }
+    
+    function addProgress() {
+      const span = document.createElement("span");
+      span.style.background = "var(--primary)";
+      progressArea.appendChild(span);
+    }
+    
+    function finishGame(resultTitle, infoText) {
+      questionArea.style.display = "none";
+      resultArea.style.display = "block";
+      resultMessage.textContent = resultTitle;
+      resultComment.textContent = infoText;
+    }
+    
+    function concludeCompetition() {
+      questionArea.style.display = "none";
+      resultArea.style.display = "block";
+      if(guvenen > rahat) {
+        document.documentElement.style.setProperty('--primary', "var(--red)");
+        resultMessage.textContent = "Kendine Güveniyorsun Demek!";
+        resultComment.textContent = "Riskli yatırımlara ve kısa dönemlik yüksek kazanca ilgi duyuyorsun. " + extraComments.join(" ");
+      } else if(rahat > guvenen) {
+        document.documentElement.style.setProperty('--primary', "var(--green)");
+        resultMessage.textContent = "Paranı Sağlama Almak İstiyorsun!";
+        resultComment.textContent = "Garantili getiri sağlayan uzun dönemli yatırımlara yöneliyorsun. " + extraComments.join(" ");
+      } else {
+        resultMessage.textContent = "Dengeli Yatırımcı";
+        resultComment.textContent = extraComments.join(" ");
+      }
+    }
+  </script>
+</body>
+</html>

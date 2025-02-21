@@ -1,0 +1,65 @@
+/* Genel stil */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: rgb(19,18,0);
+    }
+    header, footer {
+      background-color: rgb(245,221,0);
+      padding: 10px;
+      text-align: center;
+    }
+    nav {
+      background-color: rgb(19,18,0);
+      overflow: hidden;
+    }
+    nav a {
+      float: left;
+      display: block;
+      color: rgb(245,221,0);
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background-color: rgb(245,221,0);
+      color: rgb(19,18,0);
+    }
+    .container {
+      padding: 20px;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+    .financial-links a {
+      display: block;
+      color: rgb(19,18,0);
+      text-decoration: none;
+      margin: 5px 0;
+    }
+    .financial-links a:hover {
+      text-decoration: underline;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border: 1px solid rgb(19,18,0);
+      border-radius: 4px;
+    }
+    button {
+      background-color: rgb(245,221,0);
+      color: rgb(19,18,0);
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: rgb(19,18,0);
+      color: rgb(245,221,0);
+    }
