@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alfinans - Oyunlar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==== BAŞLANGIÇ: GENEL STILLER (main.css'ten geldiği varsayılan) ==== */
+        :root {
+            --primary-dark: #0A2342;
+            --primary-medium: #003366;
+            --accent-color: #2CA58D;
+            --background-light: #F5F5F5;
+            --background-white: #FFFFFF;
+            --text-dark: #333333;
+            --text-light: #FFFFFF; /* Bu sayfada .game-btn için text rengi beyaz kalmalı, genel butonlar için de uygun */
+            --normal-text: #333333; /* body için normal metin rengi */
+            --border-color: #DDDDDD;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --transition: 0.3s; /* --transition-speed olarak da kullanılabilir, tutarlılık için */
+            --transition-speed: 0.3s;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; } /* Bu genel resetleyici iyi bir başlangıç */
+
+        body {
+            font-family: 'Open Sans', Arial, sans-serif;
+            background: var(--background-light); /* Ana arka plan rengi güncellendi */
+            color: var(--normal-text); /* Ana metin rengi güncellendi */
+            padding-bottom: 80px; /* Footer için boşluk */
+            font-size: larger; /* Bu genel bir ayar, gerekirse 16px veya 1rem olarak ayarlanabilir */
+        }
+
+        header {
+            background: var(--primary-dark);
+            color: var(--text-light); /* header içindeki metin rengi açık */
+            padding: 20px 0;
+            text-align: center;
+            /* border-radius: 8px; kaldırılabilir veya güncel tasarıma göre ayarlanabilir */
+            /* margin-bottom: 20px; kaldırılabilir veya güncel tasarıma göre ayarlanabilir */
+        }
+        header h1 { margin: 0; font-size: 2.5em; font-weight: 600; }
+
+
+        nav {
+            background: var(--primary-medium);
+            text-align: center;
+            padding: 10px 0;
+            /* margin-bottom: 20px; kaldırılabilir veya güncel tasarıma göre ayarlanabilir */
+            /* border-radius: 8px; kaldırılabilir veya güncel tasarıma göre ayarlanabilir */
+        }
+
+        nav a {
+            color: var(--text-light); /* nav içindeki link rengi açık */
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            font-weight: 500;
+        }
+
+        nav a:hover, nav a.active {
+            background: var(--accent-color);
+            color: var(--text-light);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px; /* Daha tutarlı bir genişlik */
+            margin: 30px auto;
+            padding: 30px; /* İç padding artırıldı */
+            text-align: center; /* Konteyner içindeki başlık gibi öğeler için */
+            background-color: var(--background-white); /* Konteyner arka planı */
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+        
+        .page-section h2 { /* Genel h2 stili */
+            color: var(--primary-medium);
+            font-size: 1.8em;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+            display: inline-block;
+            margin-bottom: 30px; /* Başlık ve kartlar arası boşluk */
+        }
+        
+        button, .button-style { /* Genel buton stilleri */
+            background-color: var(--accent-color);
+            color: var(--text-light);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            text-decoration: none; 
+            display: inline-block; 
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+        }
+
+        button:hover, .button-style:hover {
+            background-color: var(--primary-medium); 
+            color: var(--text-light);
+            transform: translateY(-2px); 
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--primary-dark); /* index.html'deki footer stiliyle aynı */
+            color: var(--text-light); /* footer içindeki metin rengi açık */
+            text-align: center;
+            padding: 20px; /* index.html'deki footer stiliyle aynı */
+            /* border-top: 1px solid #ccc; // Daha modern bir görünüm için kaldırılabilir veya var(--border-color) kullanılabilir */
+        }
+        /* ==== SON: GENEL STILLER ==== */
+
+        /* ==== BAŞLANGIÇ: OYUN SAYFASINA ÖZEL STILLER ==== */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Kart genişliği ayarlanabilir */
+            gap: 30px; /* Kartlar arası boşluk */
+            margin-top: 20px; /* Başlık ile grid arası boşluk */
+            text-align: left; /* Kart içerikleri sola dayalı olsun */
+        }
+
+        .game-card {
+            background-color: var(--background-white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--shadow-color);
+        }
+
+        .game-card .game-image-placeholder {
+            width: 100%;
+            height: 200px; /* Oyun görselleri için daha uygun bir yükseklik */
+            background-color: #e0e0e0;
+        }
+
+        .game-card .game-image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-card .game-content {
+            padding: 25px; /* Kart içi boşluk artırıldı */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* İçeriği ortala */
+            text-align: center; /* Metinleri ortala */
+        }
+
+        .game-card h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.5em; /* Oyun başlığı boyutu */
+            color: var(--primary-dark);
+        }
+        
+        .game-card .game-description { /* İsteğe bağlı oyun açıklaması için */
+            font-size: 0.95em;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            min-height: 40px; /* Açıklama olmasa bile butonların aynı hizada kalmasına yardımcı olabilir */
+        }
+
+        /* .game-btn class'ını genel buton stilimizle birleştirelim */
+        .game-card .game-link { /* Bu, eski .game-btn yerine geçecek */
+            /* button-style class'ı zaten yukarıda tanımlı olduğu için doğrudan <a> etiketine uygulanabilir */
+        }
+        /* ==== SON: OYUN SAYFASINA ÖZEL STILLER ==== */
+
+        @media (max-width: 768px) {
+            .games-grid {
+                grid-template-columns: 1fr; /* Dar ekranlarda tek sütun */
+            }
+            nav a { display: block; margin: 5px 0; padding: 10px;}
+        }
+        @media (max-width: 600px) { 
+            /* nav { font-size: 0.9em; } // Zaten nav a { display: block; } ile çözülüyor */
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Oyunlar</h1>
+    </header>
+    <nav>
+        <a href="index.html">Ana Sayfa</a>
+        <a href="egitim.html">Eğitim</a>
+        <a href="test.html">Finans Okuryazarlığı Testi</a>
+    </nav>
+
+    <div class="container">
+        <section class="page-section" id="oyun-secenekleri">
+            <h2>Oyun Seçenekleri</h2>
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-image-placeholder">
+                        <a href="soruluoyun.html"><img src="img/indir(16).jpeg" alt="Bil-Pekiştir Oyunu"></a>
+                    </div>
+                    <div class="game-content">
+                        <h3>Bil-Pekiştir</h3>
+                        <p class="game-description">Finansal terimler hakkındaki bilgini sına ve pekiştir!</p>
+                        <a href="soruluoyun.html" class="button-style">Oyuna Başla</a>
+                    </div>
+                </div>
+
+                <div class="game-card">
+                    <div class="game-image-placeholder">
+                        <a href="simülasyon.html"><img src="img/images (3).jpeg" alt="Yatırım Risk Kişiliği Testi"></a>
+                    </div>
+                    <div class="game-content">
+                        <h3>Yatırım Risk Kişiliği Testi</h3>
+                        <p class="game-description">Yatırım kararlarını vererek risk profilini öğren.</p>
+                        <a href="simülasyon.html" class="button-style">Teste Başla</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Alfinans</p>
+    </footer>
+</body>
+</html>
